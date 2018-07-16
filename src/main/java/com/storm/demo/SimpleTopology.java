@@ -22,7 +22,7 @@ public class SimpleTopology {
             //设置配置文件 该配置会下发到spout、bolt中去
             Config config = new Config();
             config.put("jidmb","jim//12345667");
-            config.setDebug(true);
+            config.setDebug(false);
 
             // 这里是本地模式下运行的启动代码。
             config.setMaxTaskParallelism(1);

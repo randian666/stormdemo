@@ -9,6 +9,7 @@ import org.apache.storm.tuple.Values;
 
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,13 +36,13 @@ public class SimpleSpout extends BaseRichSpout {
 
     @Override
     public void fail(Object msgId) {
-        System.out.println("消息处理失败");
+        System.out.println("消息处理失败"+msgId);
         super.fail(msgId);
     }
 
     @Override
     public void ack(Object msgId) {
-        System.out.println("消息处理成功");
+        System.out.println("消息处理成功"+msgId);
         super.ack(msgId);
     }
 
@@ -53,8 +54,9 @@ public class SimpleSpout extends BaseRichSpout {
     @Override
     public void nextTuple() {
         try {
+            String uuid = UUID.randomUUID().toString().replace("_", "");
             String msg=info[random.nextInt(info.length-1)];
-            collector.emit(new Values(msg));
+            collector.emit(new Values(msg),uuid);
             TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
